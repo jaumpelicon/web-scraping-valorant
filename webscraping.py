@@ -1,7 +1,8 @@
 import requests
+import json
 from bs4 import BeautifulSoup
 
-for page in range(1,999):
+for page in range(1,2):
     # Define a URL a ser acessada
     url = "https://tracker.gg/valorant/leaderboards/ranked/all/default?page={}&region=br".format(page)
 
@@ -31,4 +32,9 @@ for page in range(1,999):
         # AttributeError: 'NoneType' object has no attribute 'text'
         if not rank or not player or not score:
             continue
-        print(f'{rank.text}. {player.text} - {score.text}\n')
+        # Transformando em json a respostas
+        response = { 'rank_position':rank.text, 'player_name': player.text, 'points': score.text}
+        jsonString = json.dumps(response, indent=4)
+
+        print(jsonString)
+        print('\n')
